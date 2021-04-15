@@ -464,6 +464,7 @@ threadmain(int argc, char **argv)
 		sysfatal("initkeyboard: %r");
 	if(mc = initmouse(nil, screen), mc == nil)
 		sysfatal("initmouse: %r");
+	mo.xy = ZP;
 	col[Csamp] = eallocimage(Rect(0,0,1,1), 1, 0x440000FF);
 	col[Cft] = eallocimage(Rect(0,0,1,1), 1, 0x660000FF);
 	col[Cline] = eallocimage(Rect(0,0,1,1), 1, 0x884400FF);
@@ -496,6 +497,8 @@ threadmain(int argc, char **argv)
 			mo = mc->Mouse;
 			break;
 		case 1:
+			if(eqpt(mo.xy, ZP))
+				mo = mc->Mouse;
 			switch(mc->buttons){
 			case 0: if(dx != 0 || dy != 0) redrawbg(Rzoom); dx = dy = 0; break;
 			case 1: setpos(); break;
